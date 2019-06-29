@@ -1,0 +1,28 @@
+package com.devmk.test.security.service;
+
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.devmk.test.vo.LoginLog;
+import com.devmk.test.vo.Member;
+
+public interface SecurityService extends UserDetailsService {
+	
+	UserDetails loadUserByUsername(String id);
+	
+	Member getSelectMeberInfo(String id) throws Exception;
+	
+    Collection<GrantedAuthority> getAuthorities(String username)throws Exception;
+    
+    int setInsertMember(Member member)throws Exception;
+
+	int setInsertLoginLog(LoginLog loginLog) throws Exception;
+	
+	int setUpdatePasswordLockCnt(String id) throws Exception;
+	
+	int setUpdatePasswordLockCntReset(String id) throws Exception;
+	
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devmk.test.login.dao.LoginMapper">
+
+	 <select id="getSelectMeberInfo" parameterType="String" resultType="com.devmk.test.io.Member">
+		/* 회원정보조회 */
+        SELECT 
+	        ID as id
+	        , ID as username
+	        , PASSWORD as password
+	        , MEMBER_NAME as memberName
+			, USER_ROLE as userRole
+        FROM SECURITY_MEMBER
+   		WHERE ID = #{id}
+    </select>
+    
+	<update id="setUpdatePasswordLockCnt" parameterType="String">
+ 		/*비밀번호 틀린 횟수 증가*/
+ 		UPDATE SECURITY_MEMBER 
+        SET
+      		PASSWORD_LOCK = NVL(PASSWORD_LOCK, 0) + 1
+        WHERE
+      		id = #{id}
+	</update>
+
+	<update id="setUpdatePasswordLockCntReset" parameterType="String">
+ 		/*비밀번호 틀린 횟수 초기화*/
+ 		UPDATE SECURITY_MEMBER 
+        SET
+      		PASSWORD_LOCK = 0
+        WHERE
+      		id = #{id}
+	</update>
+
+	<insert id="setInsertLoginLog" parameterType="com.devmk.test.io.LoginLog">
+		/* 로그인 로그 */
+		INSERT INTO SECURITY_MEMBER_LOG
+			(
+				SEQ /* 테이블 키 */
+				, ID /* 아이디 */
+				, LOGIN_IP /* 로그인 아이피 */
+				, LOGIN_DATE /* 로그인 날짜 */
+				, STATUS /*성공여부*/
+			)
+		VALUES
+			(
+           		SEQ_SECURITY.nextval
+				, #{id}
+				, #{loginIp}
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	            , #{status}
+			)
+	</insert>
+	
+</mapper>

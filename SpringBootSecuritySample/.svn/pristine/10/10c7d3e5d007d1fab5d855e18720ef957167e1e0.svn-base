@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devmk.test.login.dao.LoginMapper">
+
+	<insert id="setInsertMember" parameterType="com.devmk.test.io.Member">
+		/*회원 가입*/
+		INSERT INTO SECURITY_MEMBER
+			(
+				SEQ /* 테이블 키 */
+				, ID /* 아이디 */
+				, PASSWORD /* 비밀번호 */
+				, MEMBER_NAME /* 이름 */
+				, USER_ROLE /* 권한 */
+		  		, EMAIL /* 이메일 */ 
+				, PASSWORD_LOCK /* 비밀번호 틀린 횟수 */
+				, PASSWORD_CHG_DATE /* 비밀번호 변경일자 */
+				, REG_DATE /* 등록일 */
+				, MOD_DATE /* 수정일 */
+				, STATUS /* 회원상태 */
+			)
+		VALUES
+			(
+            	SEQ_SECURITY.nextval
+				, #{id}
+				, #{password}
+				, #{memberName}
+				, #{userRole}
+				, #{email}
+				, 0
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+				, 'O'
+			)
+	</insert>
+
+</mapper>
